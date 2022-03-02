@@ -1,5 +1,8 @@
 require('dotenv').config();
 import request from "request";
+
+const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+
 //process.env.NAME_VARIABLES
 let getHomePage = (req, res) => {
     return res.render('homepage.ejs')
@@ -140,7 +143,7 @@ function callSendAPI(sender_psid, response) {
     // Send the HTTP request to the Messenger Platform
     request({
         "uri": "https://graph.facebook.com/v2.6/me/messages",
-        "qs": { "access_token": process.env.PAGE_ACCESS_TOKEN },
+        "qs": { "access_token": PAGE_ACCESS_TOKEN },
         "method": "POST",
         "json": request_body
     }, (err, res, body) => {
@@ -152,8 +155,38 @@ function callSendAPI(sender_psid, response) {
     });
 
 }
+
+let setupProfile = async (req, res) => {
+    //call profile facebok api
+    // Construct the message body
+    let request_body = {
+        "get_started": { "payload": "GET_STARTED" },
+        "whitelisted_domains": ["https://nghia-chatbot-tiengviet.herokuapp.com/"]
+
+    }
+    // template string
+
+
+    // Send the HTTP request to the Messenger Platform
+    await request({
+        "uri": `https://graph.facebook.com/v13.0/me/messenger_profile?access_token=${PAGE_ACCESS_TOKEN}`,
+        "qs": { "access_token": PAGE_ACCESS_TOKEN },
+        "method": "POST",
+        "json": request_body
+    }, (err, res, body) => {
+        console.log(body);
+        if (!err) {
+            console.log('Setup user profile succeeds')
+        } else {
+            console.error("Unable to Setup user profile:" + err);
+        }
+    });
+
+    return res.send("Setup user profile succeeds")
+}
 module.exports = {
     getHomePage: getHomePage,
     postWebhook: postWebhook,
     getWebhook: getWebhook,
+    setupProfile: setupProfile,
 }
