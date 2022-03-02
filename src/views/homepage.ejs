@@ -9,10 +9,41 @@
 </head>
 
 <body>
-    <h1>Xin chào mình là nghĩa, năm nay 24 tuổi, đẹp trai vui tính và đặc biệt chưa có người yêu :) </h1>
+    <h1>Xin chào mình là nghĩa, sinh năm 97, đẹp trai vui tính và đặc biệt chưa có người yêu :) </h1>
     <form method="POST" action="/setup-profile">
         <button type="submit">Setup profile</button>
     </form>
+
+    <!-- Messenger Plugin chat Code -->
+    <div id="fb-root"></div>
+
+    <!-- Your Plugin chat code -->
+    <div id="fb-customer-chat" class="fb-customerchat">
+    </div>
+
+    <script>
+        var chatbox = document.getElementById('fb-customer-chat');
+        chatbox.setAttribute("page_id", "100875545884442");
+        chatbox.setAttribute("attribution", "biz_inbox");
+    </script>
+
+    <!-- Your SDK code -->
+    <script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                xfbml: true,
+                version: 'v13.0'
+            });
+        };
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
 </body>
 
 </html>
