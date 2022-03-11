@@ -27,26 +27,26 @@ let callSendAPI = (sender_psid, response) => {
     });
 
 }
-let getUserName = async (sender_psid) => {
-    let username = '';
-    // Send the HTTP request to the Messenger Platform
-    await request({
-        "uri": `https://graph.facebook.com/${sender_psid}?fields=first_name,last_name,profile_pic&access_token=${PAGE_ACCESS_TOKEN}`,
-        "qs": { "access_token": PAGE_ACCESS_TOKEN },
-        "method": "GET",
-    }, (err, res, body) => {
-        console.log(body);
-        if (!err) {
-            response = JSON.parse(res);
-            // "first_name":"peter",
-            // "last_name":"Chang",
-            username = `${response.first_name} ${response.last_name}`
-
-        } else {
-            console.error("Unable to send message:" + err);
-        }
-    });
-    return username;
+let getUserName = (sender_psid) => {
+    return new Promise((resolve, reject) => {
+        // Send the HTTP request to the Messenger Platform
+        request({
+            "uri": `https://graph.facebook.com/${sender_psid}?fields=first_name,last_name,profile_pic&access_token=${PAGE_ACCESS_TOKEN}`,
+            "method": "GET",
+        }, (err, res, body) => {
+            console.log(body);
+            if (!err) {
+                body = JSON.parse(body);
+                // "first_name":"peter",
+                // "last_name":"Chang",
+                let username = `${response.first_name} ${response.last_name}`
+                resolve(username);
+            } else {
+                console.error("Unable to send message:" + err);
+                reject(err);
+            }
+        });
+    })
 }
 let handleGetStarted = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
