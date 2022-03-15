@@ -1,4 +1,3 @@
-import { response } from "express";
 import request from "request";
 require('dotenv').config();
 
@@ -53,7 +52,7 @@ let handleGetStarted = (sender_psid) => {
         try {
             let username = await getUserName(sender_psid);
             response = { "text": `Ok. xin chào mừng bạn ${username} đến với nhà hàng của nghĩa` }
-            await callSendAPI(response, response);
+            await callSendAPI(response);
             resolve('done');
         } catch (e) {
             reject(e);
