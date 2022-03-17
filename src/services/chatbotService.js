@@ -36,9 +36,7 @@ let getUserName = (sender_psid) => {
             console.log(body);
             if (!err) {
                 body = JSON.parse(body);
-                // "first_name":"peter",
-                // "last_name":"Chang",
-                let username = `${body.last_name} ${body.first_name}`
+                let username = `${body.last_name} ${body.first_name}`;
                 resolve(username);
             } else {
                 console.error("Unable to send message:" + err);
@@ -51,7 +49,7 @@ let handleGetStarted = (sender_psid) => {
     return new Promise(async (resolve, reject) => {
         try {
             let username = await getUserName(sender_psid);
-            let response = { "text": `Ok. xin chào mừng bạn ${username} đến với nhà hàng của nghĩa` }
+            let response = { "text": `Ok. xin chào mừng bạn ${username} đến với nhà hàng của nghĩa` };
             await callSendAPI(sender_psid, response);
             resolve('done');
         } catch (e) {
